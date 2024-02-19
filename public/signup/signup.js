@@ -1,4 +1,4 @@
-const baseUrl = "http://54.179.235.16:8080";
+const baseUrl = "http://54.179.235.16:3000/";
 const signUpForm = document.getElementById("signUpForm");
 const msg = document.getElementById("message");
 
