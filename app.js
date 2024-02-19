@@ -39,7 +39,7 @@ const io = socketio(server);
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ["http://54.167.138.205", "http://localhost"],
+    origin: ["http://54.179.235.16", "http://localhost"],
     credentials: true,
   })
 );
