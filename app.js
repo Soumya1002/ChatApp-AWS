@@ -37,7 +37,12 @@ const io = socketio(server);
 
 // Middlewares
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://54.179.235.16", "http://localhost"],
+    credentials: true,
+  })
+);
 
 // Middleware Routing
 app.use("/user", userRouter);
