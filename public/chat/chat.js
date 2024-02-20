@@ -334,48 +334,6 @@ brand.addEventListener("click", () => {
   form.style.display = "none";
 });
 
-const loadArchivedChatsButton = document.getElementById("load-archived-chats");
-loadArchivedChatsButton.addEventListener("click", async () => {
-  await getChats(true); // Fetch archived chats
-});
-
-const getPreviousChats = async () => {
-  try {
-    const gpId = localStorage.getItem("currentGpId");
-    const localMessages = JSON.parse(localStorage.getItem("messages"));
-    const gpMessages = localMessages && localMessages[gpId] ? localMessages[gpId] : [];
-    const firstMsgId = gpMessages.length ? gpMessages[0].id : -1;
-    
-    const response = await axios.get(
-      `${baseUrl}/previouschats?firstMsgId=${firstMsgId}&gpId=${gpId}`,
-      {
-        headers: { Authentication: token },
-      }
-    );
-    
-    const previousChats = response.data.chats;
-    gpMessages.unshift(...previousChats); // Add previous chats to the beginning of the array
-    
-    // Update UI with previous chats
-    tableBody.replaceChildren();
-    gpMessages.forEach((chat) => {
-      displayChats({
-        userId: chat.userId,
-        message: chat.message,
-        gpId: chat.groupchatId,
-        userName: chat.user.userName,
-      });
-    });
-
-    // Update local storage
-    localMessages[gpId] = gpMessages;
-    localStorage.setItem("messages", JSON.stringify(localMessages));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
 fileInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
   const gpId = localStorage.getItem("currentGpId");
