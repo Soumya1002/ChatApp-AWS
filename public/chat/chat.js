@@ -176,7 +176,7 @@ const displayChats = (chat) => {
   messageContainer.scrollTop = messageContainer.scrollHeight;
 };
 
-const getChats = async (fromArchived = false) => {
+const getChats = async () => {
   tableBody.replaceChildren();
   const gpId = localStorage.getItem("currentGpId");
   if (gpId) {
@@ -189,22 +189,12 @@ const getChats = async (fromArchived = false) => {
       ? gpMessages[gpMessages.length - 1].id
       : -1;
     try {
-      let response;
-      if (!fromArchived) {
-        response = await axios.get(
-          `${baseUrl}/chat?lastMsgId=${lastMsgId}&gpId=${gpId}`,
-          {
-            headers: { Authentication: token },
-          }
-        );
-      } else {
-        response = await axios.get(
-          `${baseUrl}/archivedchat?lastMsgId=${lastMsgId}&gpId=${gpId}`,
-          {
-            headers: { Authentication: token },
-          }
-        );
-      }
+      const response = await axios.get(
+        `${baseUrl}/chat?lastMsgId=${lastMsgId}&gpId=${gpId}`,
+        {
+          headers: { Authentication: token },
+        }
+      );
       const chats = response.data.chats;
       gpMessages = gpMessages ? [...gpMessages, ...chats] : [...chats];
       if (gpMessages.length) {
