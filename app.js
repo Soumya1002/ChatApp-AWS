@@ -145,6 +145,7 @@ io.on("connection", (socket) => {
         fileData.gpId,
         fileData.fileName
       );
+      cb(fileUrl);
   
       // Emit the image URL to all clients in the same group
       io.in(fileData.gpId).emit("message", {
@@ -155,7 +156,7 @@ io.on("connection", (socket) => {
       });
   
       // Call the callback function with the image URL
-      cb(fileUrl);
+      
     } catch (error) {
       console.error("Error uploading file:", error);
     }
