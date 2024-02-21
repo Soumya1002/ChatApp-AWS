@@ -125,17 +125,42 @@ io.on("connection", (socket) => {
     }
   });
 
+  // socket.on("upload", async (fileData, cb) => {
+  //   console.log("file", fileData);
+  //   const fileUrl = await storeMultimedia(
+  //     fileData.fileBuffer,
+  //     fileData.gpId,
+  //     fileData.fileName
+  //   );
+  //   console.log(fileUrl);
+  //   addChat(fileData.gpId, fileUrl, fileData.userId);
+  //   cb(fileUrl);
+  // });
+
   socket.on("upload", async (fileData, cb) => {
-    console.log("file", fileData);
-    const fileUrl = await storeMultimedia(
-      fileData.fileBuffer,
-      fileData.gpId,
-      fileData.fileName
-    );
-    console.log(fileUrl);
-    addChat(fileData.gpId, fileUrl, fileData.userId);
-    cb(fileUrl);
+    try {
+      //console.log("file", fileData);
+      const fileUrl = await storeMultimedia(
+        fileData.fileBuffer,
+        fileData.gpId,
+        fileData.fileName
+      );
+  
+      // Emit the image URL to all clients in the same group
+      io.in(fileData.gpId).emit("message", {
+        userId: fileData.userId,
+        message: fileUrl,
+        userName: "System", // You can specify a system username or other identifier for images
+        gpId: fileData.gpId,
+      });
+  
+      // Call the callback function with the image URL
+      cb(fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
   });
+  
 
   //Leaving the room
   socket.on("leaveRoom", ({ userId, gpId, userName }) => {

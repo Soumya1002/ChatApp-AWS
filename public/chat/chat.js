@@ -79,47 +79,6 @@ const openGroupChat = async (e) => {
     userName: currentUser.userName,
   });
 };
-//   const currentGpId = localStorage.getItem("currentGpId");
-//   socket.emit("leaveRoom", {
-//     userId: currentUser.id,
-//     gpId: currentGpId,
-//     userName: currentUser.userName,
-//   });
-//   const gpId = e.target.id;
-//   const gpName = e.target.innerText;
-//   localStorage.setItem("currentGpId", gpId);
-//   localStorage.setItem("currentGpName", gpName);
-//   profile.replaceChildren();
-//   profile.appendChild(document.createTextNode(gpName));
-//   // localStorage.setItem("messages", JSON.stringify([]));
-//   header.style.display = "flex";
-//   menuBtn.click();
-//   // getPrivateChats();
-//   socket.emit("joinRoom", {
-//     userId: currentUser.id,
-//     gpId: gpId,
-//     userName: currentUser.userName,
-//   });
-// };
-
-// const displayOnlineUsers = (user) => {
-//   const li = document.createElement("li");
-//   li.className = "list-group-item users";
-//   li.id = user.id;
-//   li.appendChild(document.createTextNode(user.userName));
-//   li.addEventListener("click", openPrivateChat);
-//   onlineList.appendChild(li);
-// };
-
-// const getOnlineUsers = () => {
-//   onlineList.replaceChildren();
-//   socket.emit("sendUsers", (users) => {
-//     console.log(users);
-//     users.forEach((user) => {
-//       displayOnlineUsers(user);
-//     });
-//   });
-// };
 
 const displayGroups = (group) => {
   const li = document.createElement("li");
