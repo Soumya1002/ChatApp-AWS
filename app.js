@@ -138,25 +138,18 @@ io.on("connection", (socket) => {
   // });
 
   socket.on("upload", async (fileData, cb) => {
-    try {
-      console.log("file", fileData);
-      const fileUrl = await storeMultimedia(
-        fileData.fileBuffer,
-        fileData.gpId,
-        fileData.fileName
-      );
-  
-      io.in(fileData.gpId).emit("message", {
-        userId: fileData.userId,
-        message: fileUrl,      
-        gpId: fileData.gpId,
-      });
-  
-     
-      cb(fileUrl);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
+    console.log("file", fileData);
+    const fileUrl = await storeMultimedia(
+      fileData.fileBuffer,
+      fileData.gpId,
+      fileData.fileName
+    );
+    console.log(fileUrl);
+    addChat(fileData.gpId, fileUrl, fileData.userId);
+    cb(fileUrl, () => {
+      // This callback executes asynchronously after cb is called
+      socket.to(fileData.gpId).emit("fileUploaded", fileUrl);
+    });
   });
   
 
