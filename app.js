@@ -146,8 +146,7 @@ io.on("connection", (socket) => {
     );
     console.log(fileUrl);
     addChat(fileData.gpId, fileUrl, fileData.userId);
-    cb(fileUrl, () => {
-      // This callback executes asynchronously after cb is called
+    cb(fileUrl, () => {    
       socket.to(fileData.gpId).emit("upload", fileUrl);
     });
   });

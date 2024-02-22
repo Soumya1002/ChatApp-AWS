@@ -5,10 +5,7 @@ const msg = document.getElementById("message");
 const messageHandler = (message, type) => {
   msg.innerText = message;
   msg.className = type;
-  setTimeout(() => {
-    msg.innerText = "";
-    msg.className = "";
-  }, 5000);
+ 
 };
 
 const signUpHandler = async (event) => {
