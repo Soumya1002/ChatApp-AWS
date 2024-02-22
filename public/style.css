@@ -25,21 +25,20 @@ body {
 
 
 
-@keyframes slidein {
-  from { transform: translateX(-100%); }
-  to   { transform: translateX(0); }
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-@keyframes slideout {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
+@keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 /* Apply the animation */
 #svg-image {
-  animation: slidein 1s ease-in-out infinite alternate; /* Example for slide in animation */
+  animation: fadein 1s ease-in-out infinite alternate; /* Example for fade in animation */
 }
-
 
 
 #menu {
