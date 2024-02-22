@@ -40,6 +40,61 @@ newGroup.addEventListener("click", () => {
   window.location.href = "../newgroup/new-group.html";
 });
 
+const loadArchivedChats = async () => {
+  await getArchivedChats();
+};
+
+const getArchivedChats = async () => {
+  tableBody.replaceChildren();
+  const gpId = localStorage.getItem("currentGpId");
+  if (gpId) {
+    header.style.display = "flex";
+    form.style.display = "block";
+    let localArchivedMessages = JSON.parse(localStorage.getItem("archivedMessages"));
+    let gpArchivedMessages =
+      localArchivedMessages && localArchivedMessages[gpId] ? localArchivedMessages[gpId] : [];
+    const lastMsgId = gpArchivedMessages.length
+      ? gpArchivedMessages[gpArchivedMessages.length - 1].id
+      : -1;
+    try {
+      const response = await axios.get(
+        `${baseUrl}/archived-chat?lastMsgId=${lastMsgId}&gpId=${gpId}`,
+        {
+          headers: { Authentication: token }, // Corrected the header name from 'Authentication' to 'Authorization'
+        }
+      );
+      const chats = response.data.chats;
+      gpArchivedMessages = gpArchivedMessages ? [...gpArchivedMessages, ...chats] : [...chats];
+      if (gpArchivedMessages.length) {
+        while (gpArchivedMessages.length > 10) {
+          gpArchivedMessages.shift();
+        }
+        gpArchivedMessages.forEach((chat) => {
+          displayChats({
+            userId: chat.userId,
+            message: chat.message,
+            gpId: chat.groupchatId,
+            userName: chat.user.userName,
+          });
+        });
+        localArchivedMessages[gpId] = gpArchivedMessages;
+        localStorage.setItem("archivedMessages", JSON.stringify(localArchivedMessages));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    tableBody.innerHTML = `
+    <li class="list-group-item">
+        <h1 class='heading'>Welcome to MUMBLE Chat App</h1>
+    </li>
+    <li class="list-group-item">
+        <h3 style="text-align: center">Chatting made easy, connecting made fun!</h3>
+    </li>`;
+  }
+};
+
+
 function parseJwt(token) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
