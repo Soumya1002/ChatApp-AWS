@@ -23,26 +23,20 @@ body {
   margin-top: 2rem;
 }
 
-#svg-image {
-  width: 100%;
-  position: relative;
- 
-  animation: shake 1s;
-  animation-iteration-count: infinite;
-  transition-timing-function: ease-in-out;
+
+
+@keyframes scale {
+  from { transform: scale(1); }
+  to   { transform: scale(1.5); }
 }
 
-@keyframes shake {
-  0% {
-    transform: translateY(1px);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-  100% {
-    transform: translateY(1px);
-  }
+/* Apply the animation */
+#svg-image {
+  animation: scale 1s ease-in-out infinite alternate; /* Example for scaling animation */
 }
+
+
+
 
 #menu {
   margin-left: 5px;
