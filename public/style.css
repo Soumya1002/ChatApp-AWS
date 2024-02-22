@@ -26,8 +26,8 @@ body {
 
 
 @keyframes scale {
-  from { transform: scale(1); }
-  to   { transform: scale(1.5); }
+  from { transform: scale(0.5); }
+  to   { transform: scale(1.0); }
 }
 
 /* Apply the animation */
