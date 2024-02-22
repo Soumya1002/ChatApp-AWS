@@ -58,35 +58,5 @@ exports.getChat = async (req, res, next) => {
 };
 
 
-// Controller function to fetch archived chat data
-exports.getArchivedChat = async (req, res, next) => {
-  const gpId = req.query.groupId; // Extract the group ID from the request query
-
-  try {
-    // Fetch archived chat data for the specified group ID
-    const archivedChats = await Chat.findAll({
-      where: {
-        groupchatId: gpId,
-        createdAt: {
-          [Op.lt]: new Date(), // Fetch chats created before today
-          [Op.gte]: new Date(new Date().setDate(new Date().getDate() - 1)), // Assuming you want chats from yesterday
-        },
-      },
-    });
-
-    // Send the archived chat data as a response
-    res.json({
-      success: true,
-      archivedChats: archivedChats,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      error: "Error fetching archived chat data",
-    });
-  }
-};
-
 
 
