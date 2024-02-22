@@ -57,37 +57,36 @@ exports.getChat = async (req, res, next) => {
   }
 };
 
-// New endpoint for loading previous chats from archived database
+
+// Controller function to fetch archived chat data
 exports.getArchivedChat = async (req, res, next) => {
-  const lastMsgId = req.query.lastMsgId;
-  const gpId = req.query.gpId;
+  const gpId = req.query.groupId; // Extract the group ID from the request query
 
   try {
-    // Fetch chats from the archived chat database
-    const archivedChats = await ArchivedChat.findAll({
-      where: { id: { [Op.lt]: lastMsgId }, groupchatId: gpId },
-      include: [
-        {
-          model: User,
-          attributes: ["userName"],
+    // Fetch archived chat data for the specified group ID
+    const archivedChats = await Chat.findAll({
+      where: {
+        groupchatId: gpId,
+        createdAt: {
+          [Op.lt]: new Date(), // Fetch chats created before today
+          [Op.gte]: new Date(new Date().setDate(new Date().getDate() - 1)), // Assuming you want chats from yesterday
         },
-      ],
+      },
     });
 
+    // Send the archived chat data as a response
     res.json({
       success: true,
-      chats: archivedChats,
+      archivedChats: archivedChats,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
       success: false,
+      error: "Error fetching archived chat data",
     });
   }
 };
 
-// Client-side code can call this endpoint when the "load previous chat" button is clicked
-// Example usage:
-// GET /api/archived-chat?lastMsgId=123&gpId=456
 
 
