@@ -26,18 +26,18 @@ body {
 
 
 @keyframes fadein {
-  from { opacity: 0; }
+  from { opacity: 0.5; }
   to   { opacity: 1; }
 }
 
 @keyframes fadeout {
   from { opacity: 1; }
-  to   { opacity: 0; }
+  to   { opacity: 0.5; }
 }
 
-/* Apply the animation */
+
 #svg-image {
-  animation: fadein 1s ease-in-out infinite alternate; /* Example for fade in animation */
+  animation: fadein 3s ease-in-out infinite alternate; 
 }
 
 
