@@ -25,16 +25,20 @@ body {
 
 
 
-@keyframes scale {
-  from { transform: scale(0.5); }
-  to   { transform: scale(1.0); }
+@keyframes slidein {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slideout {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
 }
 
 /* Apply the animation */
 #svg-image {
-  animation: scale 1s ease-in-out infinite alternate; /* Example for scaling animation */
+  animation: slidein 1s ease-in-out infinite alternate; /* Example for slide in animation */
 }
-
 
 
 
